@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../core/storage/local_persistence_service.dart';
 import '../../core/theme/arcade_colors.dart';
+import '../components/retro_highway_background.dart';
 import 'main_menu_screen.dart';
 
-/// Pantalla de bienvenida con fondo de imagen y botón inferior 'COMENZAR A JUGAR'
+/// Pantalla de bienvenida con fondo animado de carretera infinita y cerros vectoriales
 class WelcomeScreen extends StatelessWidget {
   final LocalPersistenceService storage;
 
@@ -30,21 +31,21 @@ class WelcomeScreen extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Fondo de pantalla: preparado como contenedor para la imagen de fondo definitiva
-          _buildBackgroundPlaceholder(),
+          // Fondo animado: carretera infinita, cerros al fondo y partículas en loop
+          const RetroHighwayBackground(),
 
-          // Capa de oscurecimiento y gradiente para garantizar legibilidad
+          // Capa de gradiente sutil para garantizar máximo contraste y legibilidad
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  ArcadeColors.background.withValues(alpha: 0.3),
-                  ArcadeColors.background.withValues(alpha: 0.6),
-                  ArcadeColors.background.withValues(alpha: 0.95),
+                  ArcadeColors.background.withValues(alpha: 0.15),
+                  ArcadeColors.background.withValues(alpha: 0.45),
+                  ArcadeColors.background.withValues(alpha: 0.90),
                 ],
-                stops: const [0.0, 0.5, 0.9],
+                stops: const [0.0, 0.55, 0.92],
               ),
             ),
           ),
@@ -144,33 +145,4 @@ class WelcomeScreen extends StatelessWidget {
       ),
     );
   }
-
-  /// Fondo temporal retro vectorial estilizado (fácilmente sustituible por Image.asset)
-  Widget _buildBackgroundPlaceholder() {
-    return Container(
-      color: const Color(0xFF0D0D16),
-      child: CustomPaint(painter: _RetroGridPainter()),
-    );
-  }
-}
-
-/// Dibuja una rejilla retro sutil con perspectiva arcade
-class _RetroGridPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = ArcadeColors.neonCyan.withValues(alpha: 0.08)
-      ..strokeWidth = 1.0;
-
-    const step = 40.0;
-    for (double x = 0; x < size.width; x += step) {
-      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
-    }
-    for (double y = 0; y < size.height; y += step) {
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

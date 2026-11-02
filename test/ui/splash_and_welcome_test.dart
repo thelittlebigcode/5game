@@ -35,7 +35,9 @@ void main() {
     );
     expect(imageDarkFinder, findsOneWidget);
 
-    await tester.pumpAndSettle(const Duration(milliseconds: 1000));
+    // Avanzar la duración de la splash screen y la transición de página
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump(const Duration(milliseconds: 500));
     expect(find.text('COMENZAR A JUGAR'), findsOneWidget);
   });
 
@@ -68,7 +70,8 @@ void main() {
     );
     expect(imageWhiteFinder, findsOneWidget);
 
-    await tester.pumpAndSettle(const Duration(milliseconds: 1000));
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump(const Duration(milliseconds: 500));
     expect(find.text('COMENZAR A JUGAR'), findsOneWidget);
   });
 
